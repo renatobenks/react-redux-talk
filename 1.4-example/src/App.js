@@ -1,14 +1,61 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
+
+import styles from './features/counter/Counter.module.css';
+
 import './App.css';
 
 function App() {
+  const [incrementAmount, setIncrementAmount] = useState('2');
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
+        <Counter>
+          {({count, increment, decrement, incrementByAmount, incrementAsync}) => (
+            <div>
+              <div className={styles.row}>
+                <button
+                  className={styles.button}
+                  aria-label="Increment value"
+                  onClick={() => increment()}
+                >
+                  +
+                </button>
+                <span className={styles.value}>{count}</span>
+                <button
+                  className={styles.button}
+                  aria-label="Decrement value"
+                  onClick={() => decrement()}
+                >
+                  -
+                </button>
+              </div>
+              <div className={styles.row}>
+                <input
+                  className={styles.textbox}
+                  aria-label="Set increment amount"
+                  value={incrementAmount}
+                  onChange={e => setIncrementAmount(e.target.value)}
+                />
+                <button
+                  className={styles.button}
+                  onClick={() => incrementByAmount(incrementAmount)}
+                >
+                  Add Amount
+                </button>
+                <button
+                  className={styles.asyncButton}
+                  onClick={() => incrementAsync(incrementAmount)}
+                >
+                  Add Async
+                </button>
+              </div>
+            </div>
+          )}
+        </Counter>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

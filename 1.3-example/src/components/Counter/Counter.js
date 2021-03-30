@@ -1,28 +1,27 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector, useStore} from 'react-redux';
 
 import {counterIncrement, counterDecrement} from '../../redux/actions/counterActions';
 
 import styles from './Counter.module.css';
 
-const mapStateToProps = (state) => ({
-  count: state.counter.value,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  incrementCount: () => dispatch(counterIncrement()),
-  decrementCount: () => dispatch(counterDecrement()),
-});
-
-export const Counter = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(function Counter({
-  count,
-  incrementCount,
-  decrementCount,
+export function Counter({
   children,
 }) {
+  const store = useStore();
+  const count = useSelector(state => state.counter.value);
+  const dispatch = useDispatch();
+
+  console.log(store.getState());
+
+  function incrementCount() {
+    dispatch(counterIncrement());
+  }
+
+  function decrementCount() {
+    dispatch(counterDecrement());
+  }
+
   return (
     <div>
       <div className={styles.row}>
@@ -47,4 +46,4 @@ export const Counter = connect(
       </div>
     </div>
   );
-});
+}
